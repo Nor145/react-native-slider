@@ -167,6 +167,12 @@ export default class Slider extends PureComponent {
      * Used to configure the animation parameters.  These are the same parameters in the Animated library.
      */
     animationConfig : PropTypes.object,
+
+    
+    /**
+    * Set to true if the slider is placed vertically
+    */
+    vertical: PropTypes.bool
   };
 
   static defaultProps = {
@@ -179,7 +185,8 @@ export default class Slider extends PureComponent {
     thumbTintColor: '#343434',
     thumbTouchSize: {width: 40, height: 40},
     debugTouchArea: false,
-    animationType: 'timing'
+    animationType: 'timing',
+    vertical: false
   };
 
   state = {
@@ -384,7 +391,8 @@ export default class Slider extends PureComponent {
 
   _getValue = (gestureState: Object) => {
     var length = this.state.containerSize.width - this.state.thumbSize.width;
-    var thumbLeft = this._previousLeft + gestureState.dx;
+    var distance = this.props.vertical ? gestureState.dy : gestureState.dx;
+    var thumbLeft = this._previousLeft + distance;
 
     var ratio = thumbLeft / length;
 
